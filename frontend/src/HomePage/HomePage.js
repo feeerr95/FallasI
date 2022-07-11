@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Button, Paper } from "@mui/material";
+import { Button } from "@mui/material";
 import { Form } from "../Form/Form";
 import { getNewErrors } from "../api";
 import './styles.css';
@@ -25,10 +25,14 @@ export const HomePage = () => {
 
   return (
     <div className="page">
-      <span className="pageTitle">3D-ERRORS</span>
-      <Paper elevation={10} className="card">
-        <span className="title">Seleccione alguna de las siguientes opciones</span>
-        <Form errors={errors} onSelect={setSelectedOption} />
+      <span className="t-stroke t-shadow pageTitle">3D ERRORS</span>
+      {/* <span className="pageTitle">3D-ERRORS</span> */}
+      <div className="card">
+        <span className="title">Indique cual es el error que presenta.</span>
+        <div className="form">
+          <span className="subtitle">Seleccione alguna de las siguientes opciones.</span>
+          <Form errors={errors} onSelect={setSelectedOption} />
+        </div>
         <Button 
           onClick={handleNext}
           className="button"
@@ -36,7 +40,7 @@ export const HomePage = () => {
         >
           Siguiente
         </Button>
-      </Paper>
+      </div>
     </div>
   )
 };
