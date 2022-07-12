@@ -13,7 +13,7 @@ const initialErrors = [
   'Pieza a medio hacer',
   'Ausencia de filamento al inicio de la impresión',
 ];
-const INITIAL_TITLE = '¿CUÁL ES SU PROBLEMA ACTUAL?';
+const INITIAL_TITLE = '¿Cuál es su problema actual?';
 
 export const HomePage = () => {
   const [errors, setErrors] = useState(initialErrors);
@@ -24,7 +24,7 @@ export const HomePage = () => {
   const handleNext = async () => {
     const {response, newErrors} = await getNewErrors(selectedOption);
     setErrors(newErrors);
-    setTitle('OBSERVA O REALIZÓ ALGUNA DE LAS SIGUIENTES OPCIONES')
+    setTitle('¿Observa o realizó alguna de las siguientes opciones?')
     setResponse(response)
   }
 
@@ -41,7 +41,7 @@ export const HomePage = () => {
         {response 
         ? (
           <>
-            <span className="title">SOLUCIÓN / PROBLEMA DE SU ERROR</span>
+            <span className="title">Solución / problema de su error</span>
             <span>{response}</span>
             <Button 
               onClick={handleReset}
