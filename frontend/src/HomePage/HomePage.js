@@ -8,9 +8,9 @@ import './styles.css';
 const initialErrors = [
   'Problemas con la primer capa',
   'Hilos rodeando la pieza',
-  'Mala definición de la pieza',
-  'La pieza está desfasada',
-  'Pieza a medio hacer',
+  'Mala definición',
+  'Pieza desfasada',
+  'Pieza quedó a medio hacer',
   'Ausencia de filamento al inicio de la impresión',
 ];
 const INITIAL_TITLE = '¿Cuál es su problema actual?';
