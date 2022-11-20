@@ -34,12 +34,15 @@ def get_next_question():
 
     if(not nextQuestion):
         return {
+            "nextCondition": None,
+            "nextQuestion": None,
             "result": rete.get_solution()
         }
 
     return {
         "nextCondition": nextQuestion[0],
         "nextQuestion": nextQuestion[1],
+        "result": None,
     }
 
 
