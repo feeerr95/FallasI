@@ -17,6 +17,8 @@ class RETE():
 
     def get_next_question(self, condition, conditionIsTrue):
 
+        conditionIsTrue = conditionIsTrue == 'true'
+
         if(conditionIsTrue):
             self.currentKnowledge.append(condition)
 
@@ -37,7 +39,7 @@ class RETE():
 
         for rule in self.currentRules:
             if(len(rule[CONDITIONS]) > len(self.currentKnowledge)):
-                nextCondition = rule[CONDITIONS][len(self.currentRules) + 1]
+                nextCondition = rule[CONDITIONS][len(self.currentKnowledge)]
                 return (nextCondition, questions[nextCondition])
 
     def get_first_question(self, condition):
@@ -52,9 +54,8 @@ class RETE():
 
         self.currentRules = new_rules
 
-        nextCondition = rule[CONDITIONS][0]
+        nextCondition = self.currentRules[0][CONDITIONS][1]
         return (nextCondition, questions[nextCondition])
 
     def get_solution(self):
-        if(len(self.currentKnowledge) == 1):
-            return self.currentRules[0][RESPONSE]
+        return self.currentRules[0][RESPONSE]
