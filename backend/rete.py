@@ -34,7 +34,7 @@ class RETE():
 
         self.currentRules = new_rules
 
-        if(len(self.currentRules) == 1):
+        if(len(self.currentRules) <= 1):
             return None
 
         for rule in self.currentRules:
@@ -58,4 +58,6 @@ class RETE():
         return (nextCondition, questions[nextCondition])
 
     def get_solution(self):
+        if(len(self.currentRules) == 0):
+            return 'No se encontraron respuestas para tu problema.'
         return self.currentRules[0][RESPONSE]
