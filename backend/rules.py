@@ -35,7 +35,7 @@ rules = [
      'Configura bien la velocidad de retracción'),
 
     ([threadsInThePiece, correctTemperature],
-     'Condifurar bien la velocidad de impresión'),
+     'Configurar bien la velocidad de impresión'),
 
     ([threadsInThePiece], 'Configurar bien la temperatura'),
 

@@ -1,73 +1,92 @@
-import React, {useState} from "react";
-import { Button } from "@mui/material";
-import { Form } from "../Form/Form";
-import { getNewErrors } from "../api";
+import React, { useState } from 'react';
+import { Button } from '@mui/material';
+import { Form } from '../Form/Form';
+import { getFirstQuestion, getNewErrors, getNextQuestion } from '../api';
 import './styles.css';
 
-
-const initialErrors = [
-  'Problemas con la primer capa',
-  'Hilos rodeando la pieza',
-  'Mala definición',
-  'Pieza desfasada',
-  'Pieza quedó a medio hacer',
-  'Ausencia de filamento al inicio de la impresión',
+const INITIAL_OPTIONS = [
+  {
+    label: 'Problemas con la primer capa',
+    value: 'Problemas con la primer capa',
+  },
+  {
+    label: 'La pieza está desfasada',
+    value: 'La pieza está desfasada',
+  },
+  {
+    label: 'La pieza esta rodeada de hilos',
+    value: 'La pieza esta rodeada de hilos',
+  },
+  {
+    label: 'La pieza quedó a medio hacer',
+    value: 'La pieza quedó a medio hacer',
+  },
 ];
+
+const OPTIONS = [
+  { label: 'Si', value: true },
+  { label: 'No', value: false },
+];
+
 const INITIAL_TITLE = '¿Cuál es su problema actual?';
 
 export const HomePage = () => {
-  const [errors, setErrors] = useState(initialErrors);
-  const [selectedOption, setSelectedOption] = useState('');
-  const [response, setResponse] = useState('')
-  const [title, setTitle] = useState(INITIAL_TITLE)
+  const [title, setTitle] = useState(INITIAL_TITLE);
+  const [isFirstQuestion, setIsFirstQuestion] = useState(true);
+  const [selectedCondition, setSelectedCondition] = useState();
+  const [currentCondition, setCurrentCondition] = useState();
+  const [currentQuestion, setCurrentQuestion] = useState();
+  const [finishResponse, setFinishResponse] = useState('');
 
   const handleNext = async () => {
-    const {response, newErrors} = await getNewErrors(selectedOption);
-    setErrors(newErrors);
-    setTitle('¿Observa o realizó alguna de las siguientes opciones?')
-    setResponse(response)
-  }
+    const { nextCondition, nextQuestion, result } = isFirstQuestion
+      ? await getFirstQuestion(selectedCondition)
+      : await getNextQuestion(currentCondition, selectedCondition);
+
+    if (result) {
+      setTitle(result);
+      setFinishResponse(result);
+    } else {
+      setTitle(nextQuestion);
+      setIsFirstQuestion(!!result);
+      setCurrentCondition(nextCondition);
+      setCurrentQuestion(nextQuestion);
+      setSelectedCondition();
+    }
+  };
 
   const handleReset = () => {
-    setErrors(initialErrors);
-    setResponse('');
+    setIsFirstQuestion(true);
     setTitle(INITIAL_TITLE);
-  }
+    setFinishResponse();
+  };
 
   return (
     <div className="page">
       <span className="t-stroke t-shadow pageTitle">3D ERRORS</span>
       <div className="card">
-        {response 
-        ? (
-          <>
-            <span className="title">Solución / problema de su error</span>
-            <span>{response}</span>
-            <Button 
-              onClick={handleReset}
-              className="button"
-              variant="contained"
-            >
-              Reiniciar
+        <span className="title">
+          {isFirstQuestion || finishResponse ? title : currentQuestion}
+        </span>
+        <div className="form">
+          {!finishResponse && (
+            <Form
+              options={isFirstQuestion ? INITIAL_OPTIONS : OPTIONS}
+              onSelect={setSelectedCondition}
+            />
+          )}
+          <div className="buttonsContainer">
+            <Button fullWidth onClick={handleReset} variant="text">
+              Resetear
             </Button>
-          </>
-        ) : (
-          <>
-            <span className="title">{title}</span>
-            <div className="form">
-              <span className="subtitle">Seleccione alguna de las siguientes opciones.</span>
-              <Form errors={errors} onSelect={setSelectedOption} />
-            </div>
-            <Button 
-              onClick={handleNext}
-              className="button"
-              variant="contained"
-            >
-              Siguiente
-            </Button>
-          </>
-        )}
+            {!finishResponse && (
+              <Button fullWidth onClick={handleNext} variant="contained">
+                Siguiente
+              </Button>
+            )}
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 };

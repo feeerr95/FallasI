@@ -4,21 +4,21 @@ import FormControl from '@mui/material/FormControl';
 import Radio from '@mui/material/Radio';
 import FormControlLabel from '@mui/material/FormControlLabel';
 
-export const Form = ({errors, onSelect}) => {
-
+export const Form = ({ options, onSelect, children }) => {
   return (
     <FormControl>
       <RadioGroup>
-        {errors.map(error => 
-          <FormControlLabel 
-            key={error}
-            onChange={e => onSelect(e.target['value'])}
-            value={error}
+        {options.map(({ label, value }) => (
+          <FormControlLabel
+            key={label}
+            onChange={({ target }) => onSelect(target.value)}
+            value={value}
             control={<Radio />}
-            label={error}
+            label={label}
           />
-        )}
+        ))}
       </RadioGroup>
+      {children}
     </FormControl>
   );
 };

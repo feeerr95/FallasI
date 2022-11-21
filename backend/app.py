@@ -18,7 +18,7 @@ CORS(app)
 
 @app.route("/api/rete/firstQuestion/")
 def get_first_question():
-    userCondition = request.args.get('userCondition')
+    userCondition = request.args.get('condition')
     (condition, question) = rete.get_first_question(userCondition)
     return {
         "nextCondition": condition,
@@ -28,8 +28,8 @@ def get_first_question():
 
 @app.route("/api/rete/nextQuestion/")
 def get_next_question():
-    userCondition = request.args.get('userCondition')
-    userResponse = request.args.get('userResponse')
+    userCondition = request.args.get('condition')
+    userResponse = request.args.get('response')
     nextQuestion = rete.get_next_question(userCondition, userResponse)
 
     if(not nextQuestion):
