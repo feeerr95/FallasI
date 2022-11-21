@@ -51,7 +51,6 @@ export const HomePage = () => {
       setIsFirstQuestion(!!result);
       setCurrentCondition(nextCondition);
       setCurrentQuestion(nextQuestion);
-      setSelectedCondition();
     }
   };
 
